@@ -18,7 +18,7 @@ if doPoDs
     %PoD6b();
 
     % Run PoD7, with benchmark parameters
-    %PoD7();
+    PoD7();
 
     % Run PoD8, with benchmark parameters
     PoD8a();
