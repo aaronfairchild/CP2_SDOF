@@ -38,7 +38,7 @@ Sv = zeros(nxi, nomega);
 Sa = zeros(nxi, nomega);
 
 % Plot stuff
-figure('Name','PoD 8 Benchmark'); clf; hold on; grid on;
+figure('Name','PoD 8a Benchmark'); clf; hold on; grid on;
 figsize = [0,0.5,0.3,0.5];
 set(gcf, 'Units','normalized','OuterPosition', figsize)
 
