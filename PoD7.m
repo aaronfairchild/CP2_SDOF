@@ -120,7 +120,7 @@ fprintf('  Stiffness                        %6.3f\n', k);
 fprintf('  Magnitude of Load (po)           %6.3f\n', po);
 fprintf('  Time sine loading ends           %6.3f\n', to);
 fprintf('  Driving Frequency                %6.3f\n', OMEGA);
-fprintf('  Damped Natural Frequency         %6.3f\n', wD);
+fprintf('  Damped Natural Frequency         %6.3f\n\n', wD);
 
 fprintf('  INITIAL CONDITIONS\n');
 fprintf('  Initial displacement (uo)        %6.3f\n', uoi);
