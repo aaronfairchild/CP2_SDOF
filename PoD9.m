@@ -40,7 +40,7 @@ respParams = struct('omegaMin', 0.3, ...
 % Print output
 vgFinal = vg(end); beta = 0.25; gamma = 0.5; nSteps = ceil(tf/h);
 
-fprintf('PoD 9  SDOF Earthquake\n\n')
+fprintf('PoD 9: SDOF Earthquake\n\n')
 fprintf('  EARTHQUAKE CHARACTERISTICS\n');
 fprintf('  Earthquake Duration (tD)         %6.3f\n', tf);
 fprintf('  Time increment (dt)              %6.3f\n', h);

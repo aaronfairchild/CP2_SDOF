@@ -85,7 +85,7 @@ xlabel('$u(t)$'); ylabel('$r$')
 title('Force vs. Displacement')
 
 % Print output
-fprintf('PoD 10  SDOF Nonlinear elastic vibration\n\n')
+fprintf('PoD 10: SDOF Nonlinear elastic vibration\n\n')
 fprintf('  PHYSICAL PROPERTIES\n');
 fprintf('  Stiffness                       %6.3f\n', k);
 fprintf('  Mass                            %6.3f\n', m);

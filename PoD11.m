@@ -82,7 +82,7 @@ xlabel('$t$'); ylabel('$\varepsilon_{p}$')
 title('Plastic Strain vs. Time')
 
 % Print output
-fprintf('PoD 11  SDOF NONLINEAR EP\n\n')
+fprintf('PoD 11: SDOF NONLINEAR EP\n\n')
 fprintf('  PHYSICAL PROPERTIES\n');
 fprintf('  Stiffness                       %6.3f\n', k);
 fprintf('  Mass                            %6.3f\n', m);

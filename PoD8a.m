@@ -79,7 +79,7 @@ xlabel('$\omega$'); ylabel('$\omega^2u_{max}$')
 legend(legendText, 'Location', 'best','Interpreter','latex');
 
 % Print output
-fprintf('PoD 8a  Response Spectrum\n\n')
+fprintf('PoD 8a: Response Spectrum\n\n')
 fprintf('  PHYSICAL PROPERTIES\n');
 if nxi == 1
     fprintf('  Damping ratio                    %6.3f\n', xi);
