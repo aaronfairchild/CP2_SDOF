@@ -1,4 +1,4 @@
-function [ag, t] = FakeEq(tf, h, EqOn, plotConfig)
+function [t, ug, vg, ag] = FakeEq(tf, h, EqOn, plotConfig, eqParams)
 % Generate ground acceleration (ag)
 
 set(0, 'DefaultTextInterpreter', 'latex');
@@ -16,14 +16,24 @@ t = linspace(0, tf, nSteps)';
 
 if EqOn == 1
 
-    % EQ parameters
-    so = 0.0125;            % Magnitude
-    a = 2;                  % Exponent for growth
-    b = 0.15;               % Exponent for decay
-
-    Amp = [0.2981 0.4472 0.5963 0.5963];
-    Freq = [1 2 5 10];
-    Phi = [0 0 0 0];
+    % Set default EQ parameters if not provided
+    if nargin < 5 || isempty(eqParams)
+        % Default EQ parameters
+        so = 0.0125; % Magnitude
+        a = 2;       % Exponent for growth
+        b = 0.15;    % Exponent for decay
+        Amp = [0.2981 0.4472 0.5963 0.5963];
+        Freq = [1 2 5 10];
+        Phi = [0 0 0 0];
+    else
+        % Use provided parameters
+        so = eqParams.so;
+        a = eqParams.a;
+        b = eqParams.b;
+        Amp = eqParams.Amp;
+        Freq = eqParams.Freq;
+        Phi = eqParams.Phi;
+    end
     N = length(Amp);
 
     for i = 1:nSteps
@@ -54,8 +64,6 @@ if EqOn == 1
     vg = vg - vold;
     ug = ug - vold*t;
 
-    vgFinal = vg(end);
-
     if plotConfig.showEqPlots
         set(0, 'DefaultTextInterpreter', 'latex');
         set(0, 'DefaultAxesTickLabelInterpreter', 'latex');
@@ -82,20 +90,5 @@ if EqOn == 1
         plot(t, ug, '-', 'Color', 'k', 'LineWidth', 1)
         xlabel('$t$'); ylabel('$u_g(t)$');
     end
-
-    % Print output
-    fprintf('FakeEq:\n')
-    fprintf('  EARTHQUAKE CHARACTERISTICS\n');
-    fprintf('  Earthquake Duration (tD)       %6.3f\n', tf);
-    fprintf('  Time increment (dt)             %6.3f\n', h);
-    fprintf('  Number of time steps           %7i\n', nSteps);
-    fprintf('  Earthquake type                %7s\n', 'unknown');
-    fprintf('  Time shape fcn parameters :     %6.3f %6.3f %6.3f\n', a, b, so);
-    fprintf('     Amp      Freq      Phase\n');
-    for i = 1:size(Amp,2)
-        fprintf('  %6.3f    %6.3f     %6.3f\n', Amp(i), Freq(i), Phi(i));
-    end
-
-    fprintf('\n  Final velocity: %1.4e\n\n', vgFinal);
 end
 end

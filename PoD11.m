@@ -104,5 +104,5 @@ fprintf('  Initial velocity                %6.3f\n\n', vo);
 fprintf('  LOAD FUNCTION\n');
 fprintf('  Load name: po*sin(OMEGA*t)      %6.3f\n', uo);
 fprintf('  po                              %6.3f\n', 3);
-fprintf('  OMEGA                           %6.3f\n', 2);
+fprintf('  OMEGA                           %6.3f\n\n', 2);
 end

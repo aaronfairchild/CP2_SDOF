@@ -102,21 +102,4 @@ if plotConfig.showRespPlots
     xlabel('$T$ (sec)'); ylabel('$u_{max}$')
     xlim([0, max((2*pi)./Resp(:,1))])
 end
-
-% Print output
-fprintf('Response Spectrum:\n')
-fprintf('  PHYSICAL PROPERTIES\n');
-fprintf('  Initial Natural Frequency     %6.3f\n', omegaMin);
-fprintf('  Final Natural Frequency       %6.3f\n', omegaMax);
-fprintf('  Number of Frequency Points   %7i\n', nPts);
-fprintf('  Damping ratio                 %6.3f\n\n', xi);
-
-beta = 0.25; gamma = 0.5; nSteps = ceil(tf/h);
-fprintf('Newmark:\n')
-fprintf('  INTEGRATION OF EQUATIONS\n');
-fprintf('  Final time (tf)                %6.3f\n', tf);
-fprintf('  Time increment (h)              %6.3f\n', h);
-fprintf('  Numerical integration (beta)    %6.3f\n', beta);
-fprintf('  Numerical integration (gamma)   %6.3f\n', gamma);
-fprintf('  Number of time steps           %7i\n', nSteps);
 end
