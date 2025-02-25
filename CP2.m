@@ -23,13 +23,13 @@ if doPoDs
     %PoD5();
 
     % Run PoD9, with benchmark parameters
-    %PoD5();
+    PoD9();
 
     % Run PoD10, with benchmark parameters
-    PoD10();
+    %PoD10();
 
     % Run PoD11, with benchmark parameters
-    PoD11();
+    %PoD11();
 end
 
 elapsedTime = toc; 
