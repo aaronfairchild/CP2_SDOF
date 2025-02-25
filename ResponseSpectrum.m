@@ -50,7 +50,7 @@ Resp = zeros(nPts, 2);
 
 % Create figure if needed
 if plotConfig.showRespPlots || plotConfig.showTimeHistory
-    figure(2); clf;
+    figure('Name','Earthquake Response Spectrum'); clf;
     FigSize = [0.5, 0.1, 0.5, 0.75];
     set(gcf, 'Units', 'Normalized', 'OuterPosition', FigSize)
 end

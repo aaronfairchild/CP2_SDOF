@@ -16,9 +16,9 @@ t = linspace(0, tf, nSteps)';
 
 if EqOn == 1
 
-    % Set default EQ parameters if not provided
+    % Set default EQ params if not provided
     if nargin < 5 || isempty(eqParams)
-        % Default EQ parameters
+        % Default
         so = 0.0125; % Magnitude
         a = 2;       % Exponent for growth
         b = 0.15;    % Exponent for decay
@@ -26,7 +26,7 @@ if EqOn == 1
         Freq = [1 2 5 10];
         Phi = [0 0 0 0];
     else
-        % Use provided parameters
+        % if provided
         so = eqParams.so;
         a = eqParams.a;
         b = eqParams.b;
@@ -71,7 +71,8 @@ if EqOn == 1
         set(0, 'DefaultAxesFontSize', 14);
         set(0, 'DefaultTextFontSize', 14);
 
-        figure(3); clf; grid on; hold on;
+        figure('Name','Artificial Earthquake Ground Motion'); 
+        clf; grid on; hold on;
         FigSize = [0, 0.1, 0.6, 0.5];
         set(gcf, 'Units', 'Normalized', 'OuterPosition', FigSize)
 

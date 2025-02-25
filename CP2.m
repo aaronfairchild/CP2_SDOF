@@ -14,13 +14,15 @@ doPoDs = true; % Run the PoD Benchmark cases? (true/false)
 
 if doPoDs
     % Run PoD6, with benchmark parameters
-    %PoD3();
+    %PoD6a();
+    %PoD6b();
 
     % Run PoD7, with benchmark parameters
-    %PoD4();
+    %PoD7();
 
     % Run PoD8, with benchmark parameters
-    %PoD5();
+    PoD8a();
+    %PoD8b();
 
     % Run PoD9, with benchmark parameters
     PoD9();
