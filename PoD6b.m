@@ -52,7 +52,8 @@ for i = 2:size(t,2)
 end
 
 % Plot results
-figure(1); clf; grid on; hold on;
+figure('Name','PoD 6b');
+clf; grid on; hold on;
 plot(t,u,'b','LineWidth',0.5,...
     'MarkerFaceColor','k','MarkerEdgeColor','k','MarkerSize',2);
 xlabel('t',Interpreter='latex'); ylabel('u(t)',Interpreter='latex')
