@@ -19,7 +19,7 @@ xi = params.xi;
 if isfield(params, 'wCheckIdx')
     wCheckIdx = params.wCheckIdx;
 else
-    wCheckIdx = round(nPts/10); % Default to ~10% of points
+    wCheckIdx = round(nPts/10); % Default
 end
 
 if isfield(params, 'm')
@@ -43,7 +43,7 @@ end
 LoadType = 0; % For ground acceleration
 tf = t(end);  % Final time from time vector
 
-% frequency range and init
+% frequency range and init bruv
 omega = linspace(omegaMin, omegaMax, nPts);
 wCheck = omega(wCheckIdx);
 Resp = zeros(nPts, 2);
@@ -61,7 +61,7 @@ for i = 1:nPts
     
     d = [1, k, 0, 0]; % d= [Model Type, k, b, So]
 
-    [U] = Newmark(h,LoadType,m,c,d,tf,uo,vo,ag);
+    [U] = Newmark(h,LoadType,m,c,d,tf,uo,vo,ag, DampType, dParams);
     [Umax, idxMax] = max(abs(U(:,2)));
     Resp(i,:) = [omega(i) Umax];
 
