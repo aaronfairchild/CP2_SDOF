@@ -101,30 +101,7 @@ title('Error Metrics vs. Number of Terms');
 grid on;
 
 % Start study
-% run response spsectrum for eq approx, show resonance @ nominate range
-% dom range is T = ~0.5-5sec
-
-h = 0.01;
-
-% Create a plotting configuration structure
-plotConfig = struct('showRespPlots', true, ... % Show response spectrum plots
-    'showTimeHistory', true);  % Show time history for selected frequency
-
-% Define default ResponseSpectrum parameters for the benchmark case
-respParams = struct('omegaMin', 0.05, ...
-    'omegaMax', 5, ...
-    'nPts', 500, ...
-    'xi', 0.05, ...
-    'wCheckIdx', 40, ...
-    'm', 1, ...
-    'uo', 0, ...
-    'vo', 0);
-respParms.DampType = 1; % linear viscosity
-respparms.dParams = []
-
-
-ResponseSpectrum(t, h, ag, params, plotConfig)
-
+CompareResponseSpectra(200);
 
 
 elapsedTime = toc; 

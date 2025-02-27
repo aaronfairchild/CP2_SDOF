@@ -14,6 +14,7 @@ set(0, 'DefaultTextFontSize', 14);
 nomega = 200; wMin = 0.005; wMax = 20;
 omega = linspace(wMin,wMax,nomega);
 
+
 LoadType = 1;
 
 nxi = 1; xiMin = 0.03; xiMax = .03; % currently set to just do benchmark
@@ -55,6 +56,7 @@ for j = 1:nxi
     % Loop over each natural frequency
     for i = 1:nomega
         d = [1, k(i), 0, 0];
+
         [U] = Newmark(h,LoadType,m,c(i),d,tf,uo,vo,ag);
         umax(j,i) = max(U(:,2));
     end
@@ -75,7 +77,7 @@ for j = 1:nxi
 end
 
 % Finalize the plot
-xlabel('$\omega$'); ylabel('$\omega^2u_{max}$')
+xlabel('$T$'); ylabel('$\omega^2u_{max}$')
 legend(legendText, 'Location', 'best','Interpreter','latex');
 
 % Print output

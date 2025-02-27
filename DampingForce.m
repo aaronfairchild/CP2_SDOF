@@ -24,8 +24,8 @@ end
 switch DampType
     case 1  % Linear viscous damping
         % f_d = c*v
-        fd = c * v;
-        dfd = c;
+        fd = -c * v;
+        dfd = -c;
 
     case 2  % Coulomb (friction) damping
         % f_d = mu*N*sign(v)
