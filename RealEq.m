@@ -88,19 +88,3 @@ title('Fourier Spectrum in Terms of Period');
 grid on;
 xlim([min(T_vals) max(T_vals)]); % Set reasonable x-axis limits
 
-% Compute Welch's PSD estimate for better frequency resolution
-[pxx, f_psd] = pwelch(ag, [], [], [], Fs);
-
-% Convert frequency to period (ignoring f=0)
-valid_idx = f_psd > 0;
-T_vals = 1 ./ f_psd(valid_idx);
-
-% Plot PSD with period on x-axis
-figure;
-plot(T_vals, 10*log10(pxx(valid_idx)), 'r', 'LineWidth', 1.5);
-set(gca, 'XScale', 'log'); % Log scale for better visibility
-xlabel('Period (seconds)');
-ylabel('Power/Frequency (dB/Hz)');
-title('Power Spectral Density (PSD) vs. Period');
-grid on;
-xlim([min(T_vals) max(T_vals)]);

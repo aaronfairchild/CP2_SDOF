@@ -1,6 +1,15 @@
-function [U] = Newmark(h,LoadType,m,c,d,tf,uo,vo,ag)
-% Compute response to ma+cv+r(u) = p - m*ag by Newmark's method
+function [U] = Newmark(h, LoadType, m, c, d, tf, uo, vo, ag, DampType, dParams)
+% Compute response to ma - fd + r(u) = p - m*ag by Newmark's method
 % d= [Model Type, k, b, So]
+
+% Default to viscous damping if not specified
+if nargin < 10 || isempty(DampType)
+    DampType = 1;  % Linear viscous damping
+end
+
+if nargin < 11
+    dParams = [];  % No additional parameters
+end
 
 % Set integration parameters;
 beta = 0.25;
@@ -14,8 +23,12 @@ t = 0;
 uold = uo;
 vold = vo;
 [r,~,iv] = ConstModel(uo,d,iv);
+
+% Calculate initial damping force
+[fd, ~] = DampingForce(vold, uold, DampType, c, dParams);
+
 p = LoadFunction(t,LoadType);
-aold = (p - c*vold - r)/m;
+aold = (p - fd - r)/m;
 
 % Numerical parameters
 eta = h*(1-gamma);
@@ -23,12 +36,14 @@ zeta = h^2*(0.5-beta);
 
 tol = 1.e-8;                % Newton tolerance
 nSteps = ceil(tf/h);        % Number of time steps
-U = zeros(nSteps,6);        % Storage for results
+U = zeros(nSteps,7);        % Storage for results
 
 % Compute response by time stepping
 for i = 1:nSteps
     [r,~,iv] = ConstModel(uold,d,iv);
-    U(i,:) = [t,uold,vold,aold,r,iv];
+    [fd, ~] = DampingForce(vold, uold, DampType, c, dParams);
+
+    U(i,:) = [t, uold, vold, aold, r, fd, iv];
     t = t + h;
     bn = uold + h*vold + h^2*beta*aold;
     cn = vold + gamma*h*aold;
@@ -40,9 +55,12 @@ for i = 1:nSteps
     while err>tol
         unew = bn + zeta*anew;
         vnew = cn + eta*anew;
+
         [r,dr,~] = ConstModel(unew,d,iv);
-        g = m*anew + c*vnew + r - p + m*ag(i);
-        A = m + eta*c + zeta*dr;
+        [fd, dfd] = DampingForce(vnew, unew, DampType, c, dParams);
+
+        g = m*anew - fd + r - p + m*ag(i);
+        A = m - eta*dfd + zeta*dr;
         anew = anew - g/A;
         err = norm(g);
     end
