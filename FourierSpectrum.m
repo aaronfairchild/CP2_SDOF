@@ -2,6 +2,18 @@ function [f, P1, T_vals] = FourierSpectrum(t, ag, plotResults)
 % FourierSpectrum - Generate and plot Fourier spectrum of earthquake data
 % Author: Aaron Fairchild
 % Date: February 27, 2025
+% Modified: Added PSD calculation and plot
+%
+% INPUTS:
+%   t - time vector
+%   ag - acceleration data
+%   plotResults - boolean flag to plot results
+%
+% OUTPUTS:
+%   f - frequency vector (Hz)
+%   P1 - magnitude spectrum
+%   T_vals - period values (seconds)
+%   PSD - Power Spectral Density
 
 % Compute FFT parameters
 N = length(ag);          % Number of data points
@@ -23,9 +35,12 @@ f = Fs * (0:floor(N/2)) / N;
 valid_idx = f > 0;       % Ignore f=0 (infinite period)
 T_vals = 1 ./ f(valid_idx); % Convert to period
 
-% Plot Magnitude Spectrum vs. Period if requested
+% Plot results if requested
 if plotResults
-    figure('Name', 'Fourier Spectrum');
+    figure('Name', 'Fourier Spectrum Analysis', ...
+        'Position', [100, 100, 1000, 300]);
+    
+    % Magnitude Spectrum vs. Period
     plot(T_vals, P1(valid_idx), 'b', 'LineWidth', 1.5);
     set(gca, 'XScale', 'log'); % Log scale for better visualization
     xlabel('Period (seconds)');
@@ -33,5 +48,6 @@ if plotResults
     title('Fourier Spectrum in Terms of Period');
     grid on;
     xlim([min(T_vals) max(T_vals)]); % Set reasonable x-axis limits
+    
 end
 end

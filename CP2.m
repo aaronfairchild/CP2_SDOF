@@ -35,7 +35,6 @@ if doPoDs
 end
 
 % VERIFICATION 
-
 % Real the earthquake, using Loma Prieta
 [t, ag] = RealEq();
 
