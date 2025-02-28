@@ -1,21 +1,24 @@
-function CompareResponseSpectra(fourier_terms)
+function CompareResponseSpectra(fourier_terms, custom_time_step)
 % CompareResponseSpectra - Compare response spectra for different configurations
-%   CompareResponseSpectra(fourier_terms) generates and plots response
+%   CompareResponseSpectra(fourier_terms, custom_time_step) generates and plots response
 %   spectra for different structural models and damping types on the same
-%   plot for easy comparison.
+%   plot for easy comparison, using more realistic building parameters.
 %
 % Inputs:
 %   fourier_terms - Number of terms to use in Fourier approximation
 %                  (optional, default = 200)
+%   custom_time_step - Custom time step for Fourier approximation
+%                     (optional, if omitted, original time step is used)
 %
 % Example:
-%   CompareResponseSpectra(200);
+%   CompareResponseSpectra(200);           % Using default time step
+%   CompareResponseSpectra(200, 0.01);     % Using 0.01s time step
 %
-% By Aaron Fairchild
+% By Aaron Fairchild, modified by Claude
 % Date: February 27, 2025
 
 % Set default Fourier terms if not provided
-if nargin < 1
+if nargin < 1 || isempty(fourier_terms)
     fourier_terms = 300;
 end
 
@@ -33,17 +36,22 @@ fprintf('Generating earthquake response spectra for comparison...\n');
 
 % Configuration 1: Linear Elastic with Linear Viscous damping
 fprintf('\n--- Configuration 1: Linear Elastic with Linear Viscous Damping ---\n');
-[T1, Sa1] = EarthquakeResponseSpectrum(1, 1, [], fourier_terms);
+[T1, Sa1] = EarthquakeResponseSpectrum(1, 1, [], fourier_terms, custom_time_step);
 
 % Configuration 2: Elastoplastic with Linear Viscous damping
 fprintf('\n--- Configuration 2: Elastoplastic with Linear Viscous Damping ---\n');
-[T2, Sa2] = EarthquakeResponseSpectrum(4, 1, [], fourier_terms);
+[T2, Sa2] = EarthquakeResponseSpectrum(4, 1, [], fourier_terms, custom_time_step);
 
 % Configuration 3: Elastoplastic with Coulomb Friction damping
 fprintf('\n--- Configuration 3: Elastoplastic with Coulomb Friction Damping ---\n');
-mu = 0.3; N = .01; % Friction coefficient and normal force
-coulomb_params = [mu, N, 1e-6]; % Regularization parameter = 0.001
-[T3, Sa3] = EarthquakeResponseSpectrum(4, 2, coulomb_params, fourier_terms);
+
+m = 1; % Mass
+mu = 0.3; % Friction coefficient - significantly reduced for stability
+N = m*9.81*0.5; % Normal force
+v_reg = 0.01; 
+
+coulomb_params = [mu, N, v_reg]; % Regularization parameter
+[T3, Sa3] = EarthquakeResponseSpectrum(4, 2, coulomb_params, fourier_terms, custom_time_step);
 
 % Create a new figure for comparison
 figure('Name', 'Response Spectra Comparison');
@@ -82,7 +90,7 @@ legend({'Elastoplastic/Linear, Viscous Damping', ...
         'Location', 'northeast');
 
 xlim([min(T1), max(T1)]);
-ylim([0, 2]);
+ylim([0, 1.2]); % Adjusted to better show the expected reduction
 
 % Print total execution time
 total_time = toc;

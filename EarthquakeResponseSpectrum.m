@@ -1,4 +1,4 @@
-function [periods, Sa] = EarthquakeResponseSpectrum(ModelType, DampType, dParams, fourier_terms)
+function [periods, Sa] = EarthquakeResponseSpectrum(ModelType, DampType, dParams, fourier_terms, custom_time_step)
 % EarthquakeResponseSpectrum - Generate response spectrum for earthquake loading
 %   [periods, Sa] = EarthquakeResponseSpectrum(ModelType, DampType, dParams, fourier_terms) 
 %   Computes and plots the pseudo-acceleration response spectrum for a SDOF 
@@ -67,8 +67,8 @@ set(0, 'DefaultAxesFontSize', 14);
 set(0, 'DefaultTextFontSize', 14);
 
 % Parameters for response spectrum analysis
-m = 100;                      % Mass
-xi = 0.01;                  % Damping ratio (for viscous damping)
+m = 1;                      % Mass
+xi = 0.05;                  % Damping ratio (for viscous damping)
 T_min = 0.01;                % Minimum period [s]
 T_max = 3;                  % Maximum period [s]
 nPts = 500;                 % Number of periods to evaluate
@@ -83,12 +83,20 @@ omega = 2*pi ./ periods;
 [t, ag] = RealEq();
 h = t(2) - t(1);            % Time step
 
+dt = 0.01; % adjust for stability (mainly cause of friction! >:( )
+
 % Apply Fourier approximation if requested
 if fourier_terms > 0
     tic;
     fprintf('Using Fourier approximation with %d terms...\n', fourier_terms);
-    [ag_approx, error_metrics] = CompareFourierApprox(t, ag, fourier_terms, false);
+    
+    custom_time_step = h;
+
+    [ag_approx, error_metrics, t_new] = CompareFourierApprox(t, ag, fourier_terms, false, dt);
+
+    t = t_new;
     ag = ag_approx;
+
     fprintf('Fourier approximation completed: RMSE = %.4e, Relative Error = %.2f%%\n', ...
         error_metrics.RMSE, error_metrics.RelativeError);
     toc;
@@ -153,7 +161,7 @@ for i = 1:nPts
     
     % Run time history analysis with specified damping type and parameters
     LoadType = 0;  % No external loading (earthquake input is in ag)
-    [U] = Newmark(h, LoadType, m, c, d, t(end), uo, vo, ag, DampType, dParams);
+    [U] = Newmark(dt, LoadType, m, c, d, t(end), uo, vo, ag, DampType, dParams);
     
 
     % Extract maximum displacement

@@ -13,7 +13,7 @@ set(0, 'DefaultTextFontSize', 14);
 % Input physical parameters
 k = 5;
 m = 1;
-xi = 0.0;
+xi = 0.05;
 b = 1;
 
 omega = sqrt(k/m);

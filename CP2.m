@@ -101,7 +101,7 @@ title('Error Metrics vs. Number of Terms');
 grid on;
 
 % Start study
-CompareResponseSpectra(200);
+CompareResponseSpectra(200,0.005);
 
 
 elapsedTime = toc; 
