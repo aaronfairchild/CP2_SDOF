@@ -1,7 +1,7 @@
 % Aaron Fairchild
 function [t,ag] = RealEq() % could maybe add filename input later
 
-filename = 'RSN740_LOMAP_ADL340.AT2';
+filename = 'RSN143_TABAS_TAB-L1.AT2';
 
 % Open the file
 fid = fopen(filename, 'r');

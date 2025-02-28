@@ -62,7 +62,7 @@ figure('Name', 'Comparison of Approximation Accuracy', 'Position', ...
 
 % Plot time series for a segment of data
 subplot(2,1,1);
-endTime = 10; % time to stop plot, (sec)
+endTime = 35; % time to stop plot, (sec)
 end_idx = find(t >= endTime, 1);
 if isempty(end_idx), end_idx = length(t); end % its there, but just incase
 

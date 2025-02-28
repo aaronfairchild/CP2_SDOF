@@ -67,10 +67,10 @@ set(0, 'DefaultAxesFontSize', 14);
 set(0, 'DefaultTextFontSize', 14);
 
 % Parameters for response spectrum analysis
-m = 1;                      % Mass
-xi = 0.05;                  % Damping ratio (for viscous damping)
+m = 100;                      % Mass
+xi = 0.01;                  % Damping ratio (for viscous damping)
 T_min = 0.01;                % Minimum period [s]
-T_max = 5;                  % Maximum period [s]
+T_max = 3;                  % Maximum period [s]
 nPts = 500;                 % Number of periods to evaluate
 uo = 0;                     % Initial displacement
 vo = 0;                     % Initial velocity
@@ -93,6 +93,8 @@ if fourier_terms > 0
         error_metrics.RMSE, error_metrics.RelativeError);
     toc;
 end
+
+ag = ag.*9.81; % now in m/s^2
 
 % Set constitutive model parameters based on ModelType
 switch ModelType
@@ -142,7 +144,7 @@ fprintf('Computing response spectrum for %s model and %s damping...\n', modelNam
 for i = 1:nPts
     k = omega(i)^2 * m;     % Stiffness for current frequency
     if ModelType == 4
-        So = 0.05*k;
+        So = 0.02*k;
     end
     d = [ModelType, k, b, So]; % Constitutive model parameters
     
@@ -153,8 +155,9 @@ for i = 1:nPts
     LoadType = 0;  % No external loading (earthquake input is in ag)
     [U] = Newmark(h, LoadType, m, c, d, t(end), uo, vo, ag, DampType, dParams);
     
+
     % Extract maximum displacement
-    Sd(i) = max(abs(U(:,2)));
+    Sd(i) = max(abs(U(:,2)))./9.81;
     
     % Compute pseudo-acceleration
     Sa(i) = omega(i)^2 * Sd(i);

@@ -41,8 +41,8 @@ fprintf('\n--- Configuration 2: Elastoplastic with Linear Viscous Damping ---\n'
 
 % Configuration 3: Elastoplastic with Coulomb Friction damping
 fprintf('\n--- Configuration 3: Elastoplastic with Coulomb Friction Damping ---\n');
-mu = 0.05; N = 9.81; % Friction coefficient and normal force
-coulomb_params = [mu, N, 0.001]; % Regularization parameter = 0.001
+mu = 0.3; N = .01; % Friction coefficient and normal force
+coulomb_params = [mu, N, 1e-6]; % Regularization parameter = 0.001
 [T3, Sa3] = EarthquakeResponseSpectrum(4, 2, coulomb_params, fourier_terms);
 
 % Create a new figure for comparison
